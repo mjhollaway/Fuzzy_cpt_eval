@@ -40,7 +40,7 @@ if (curr_skipcells == FALSE){
   
     #Set up the name of the input file (storing the pre-extracted model data).
     #Also read in the data.
-    data_allsite_file <- 'C:\\Users\\mhollaway\\Documents\\DSNE_code\\DSNE_devel\\Data\\CPTS_data\\CPTS_DATA_PREPROC.csv'
+    data_allsite_file <- '../data/CPTS_DATA_PREPROC.csv'
     data_allsite_read <- read.table(data_allsite_file,sep=',',header=TRUE)
 
     #Now extract the data.frame to process for the current site/model.
@@ -59,7 +59,7 @@ The following settings were used when running the notebook.
 
 ```{r}
 if (curr_skipcells == FALSE){
-  kable(data.frame(Site=curr_site,N_reps=curr_nreps,Minimum_seg_len=curr_minseg,
+  print(data.frame(Site=curr_site,N_reps=curr_nreps,Minimum_seg_len=curr_minseg,
                    AR_TS=curr_AR_TS,CPT_METHOD=curr_cptmethod))
 }
 ```
@@ -724,8 +724,13 @@ Finally the results of the analysis are output to a single excel file available 
 #This is only run if the notebook is run in standalone mode. It will not be run if called from the shiny app.
 if (curr_skipcells == FALSE){
 
+#Check to see if there is an outputs directory - of not create one.
+if(dir.exists("../outputs") == FALSE){
+  dir.create("../outputs")
+}
+  
 #Also set the path to the output file based on the chosen model.
-EVAL_out_file <- paste("C:\\Users\\mhollaway\\Documents\\TEST_DATA\\Shiny_out_test\\",curr_site,"_",curr_cptmethod,"_eval.xlsx",sep='')
+EVAL_out_file <- paste("../outputs/",curr_site,"_",curr_cptmethod,"_eval.xlsx",sep='')
 
 #Create the excel workbook and write to file.
 wb_out <- createWorkbook(creator='Me',title='Cpts Shiny App Output')
