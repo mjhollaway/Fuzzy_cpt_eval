@@ -1,2 +1,5 @@
-outputs/
+#Mask xlsx output files.
+*.xlsx
 
+#Notebooks checkpoints.
+.ipynb_checkpoints/
