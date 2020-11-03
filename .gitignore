@@ -1,5 +1,8 @@
-#Mask xlsx output files.
-*.xlsx
+#Mask outputs directory.
+outputs/
 
 #Notebooks checkpoints.
 .ipynb_checkpoints/
+
+#Rhistory files.
+.Rhistory
