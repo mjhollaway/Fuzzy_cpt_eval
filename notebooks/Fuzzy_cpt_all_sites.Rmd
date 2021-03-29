@@ -139,26 +139,14 @@ cpts_confint <- function(x_series,x_series_orig,x_cpts,N_reps,n_cpts,cpt_method,
       seg_2_boot <- sample(seg_2, length(seg_2), replace=T)
           
       #Now estimate the new changepoint (fix at 1 using AMOC).
-		  #Also need to define this base on chosen cpt method (trend method requires data pre-processing as before.
+		  #Also need to define this based on chosen cpt method.
 		  if (cpt_method == 'mean'){
 		    cpt_samp <- cpt.mean(c(seg_1_boot,seg_2_boot), method='AMOC', penalty='MBIC')
 		  } else if (cpt_method == 'variance'){
 		    cpt_samp <- cpt.var(c(seg_1_boot,seg_2_boot), method='AMOC', penalty='MBIC')
 		  } else if (cpt_method == 'mean+variance'){
 		    cpt_samp <- cpt.meanvar(c(seg_1_boot,seg_2_boot), method='AMOC', penalty='MBIC')
-		  } else if (cpt_method == 'trend'){
-		    trend_samp_proc <- c(seg_1_boot,seg_2_boot)
-			n_trend         <- length(trend_samp_proc)
-		    if (AR_order == 0){ 
-			  cpt_samp_trend <- cbind(trend_samp_proc,rep(1,n_trend),1:n_trend)
-			} else if (AR_order == 1){
-			  cpt_samp_trend <- cbind(trend_samp_proc[-1],rep(1,n_trend-1),1:(n_trend-1),trend_samp_proc[-n_trend])
-			} else if (AR_order == 2){
-			  cpt_samp_trend <- cbind(trend_samp_proc[-c(1:2)],rep(1,n_trend-2),1:(n_trend-2),
-			                          trend_samp_proc[2:(n_trend-1)],trend_samp_proc[1:(n_trend-2)])
-			}
-			cpt_samp <- cpt.reg(cpt_samp_trend,method='AMOC',penalty='MBIC')
-		  }
+		  } 
       
       return(cpts(cpt_samp))
 
@@ -404,7 +392,6 @@ cpts_currts_CI <- function(data_in_proc,min_seg_proc,TS_AR_ARIMA,CPT_METHOD_PROC
 		    } 
 		 
         #Check to see if there are any changepoints - of there are append to the main array.
-		    #If calculating cpts on trend remember to pass the non arima time series so cpts can be calculated as in envcpt package.
         #Also compute the cpts CIs if any exist.
 
         if(ncpts(curr_seg_cpts_ts) > 0){
