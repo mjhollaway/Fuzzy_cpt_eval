@@ -24,3 +24,7 @@ Then at the R command line run the following commands.
 library(shiny)
 runApp()
 ```
+
+## Raw R code.
+
+The raw R code for the functions to run the analysis is also available in the **R_code** directory. 
